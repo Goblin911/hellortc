@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.7)
+project(streamer)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON )
+
+find_package(PkgConfig)
+pkg_check_modules(x264 REQUIRED x264)
+
+add_subdirectory(deps/jsoncpp EXCLUDE_FROM_ALL)
+option(NO_MEDIA "Disable media support in libdatachannel" ON)
+add_subdirectory(deps/libdatachannel EXCLUDE_FROM_ALL)
+add_subdirectory(deps/glog EXCLUDE_FROM_ALL)
+add_subdirectory(deps/gflags EXCLUDE_FROM_ALL)
+add_executable(main src/main.cpp)
+target_link_libraries(main datachannel-static glog gflags jsoncpp_lib pthread x264)
